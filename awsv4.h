@@ -18,9 +18,9 @@
 #define HEX_LEN  SHA256_DIGEST_LENGTH * 2 + 1
 
 
-int awstime(char *, size_t);
-int awsdate(char *, size_t);
-int sha256hex(char *, size_t, const char *);
+int awstime(char *, const size_t);
+int awsdate(char *, const size_t);
+int sha256hex(char *, const size_t, const char *);
 int getcanonicalreq(
     char *,
     const size_t,

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-int awstime(char *output, size_t len) {
+int awstime(char *output, const size_t len) {
     size_t tslen = 20;
 
     if(output == NULL) {
@@ -88,7 +88,7 @@ int tohex(char *output, const size_t olen, const unsigned char *input, const siz
     return 0;
 }
 
-int sha256hex(char *output, size_t len, const char *input) {
+int sha256hex(char *output, const size_t len, const char *input) {
     if(len < HEX_LEN) {
         error("output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
