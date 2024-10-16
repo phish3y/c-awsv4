@@ -1,8 +1,5 @@
 #include "awsv4.h"
 
-#include <string.h>
-#include <time.h>
-
 int awstime(char *output, const size_t len) {
     size_t tslen = 20;
 
