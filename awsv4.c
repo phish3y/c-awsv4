@@ -95,7 +95,10 @@ int sha256hex(char *output, size_t len, const char *input) {
     }
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256((unsigned char*) input, strlen(input), hash);
+    if(SHA256((unsigned char*) input, strlen(input), hash) == NULL) {
+        error("failed to get sha256\n");
+        return -1;
+    }
 
     if(tohex(output, len, hash, sizeof(hash)) != 0) {
         error("failed to convert sha256 to hex\n");
