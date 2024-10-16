@@ -118,7 +118,7 @@ int getcanonicalreq(
     const char *timestamp
 ) {
     char canonical[BUFSIZ];
-    int res = snprintf(
+    snprintf(
         canonical, 
         sizeof(canonical),
         "%s\n"
@@ -137,10 +137,6 @@ int getcanonicalreq(
         timestamp,
         payloadhex
     );
-    if(res < 0) {
-        error("failed to build canonical request\n");
-        return -1;
-    }
 
     size_t canonicalsize = strlen(canonical);
     if(canonicalsize + 1 > len) {
@@ -205,16 +201,12 @@ int createsignature(
 
     unsigned char kdate[32], kregion[32], kservice[32], signer[32];
     char awssecret[256];
-    int res = snprintf(
+    snprintf(
         awssecret,
         sizeof(awssecret),
         "AWS4%s",
         secret
     );
-    if(res < 0) {
-        error("failed to build secret key\n");
-        return -1;
-    }
 
     char *service = "s3";
     char *aws4req = "aws4_request";
