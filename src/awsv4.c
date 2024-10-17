@@ -71,6 +71,11 @@ int awsdate(char *output, const size_t len) {
 }
 
 int tohex(char *output, const size_t olen, const unsigned char *input, const size_t ilen) {
+    if(output == NULL) {
+        fprintf(stderr, "output buffer must not be null\n");
+        return -1;
+    }
+
     if(olen < HEX_LEN) {
         fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
@@ -86,6 +91,11 @@ int tohex(char *output, const size_t olen, const unsigned char *input, const siz
 }
 
 int sha256hex(char *output, const size_t len, const char *input) {
+    if(output == NULL) {
+        fprintf(stderr, "output buffer must not be null\n");
+        return -1;
+    }
+
     if(len < HEX_LEN) {
         fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
@@ -114,6 +124,11 @@ int getcanonicalreq(
     const char *payloadhex,
     const char *timestamp
 ) {
+    if(output == NULL) {
+        fprintf(stderr, "output buffer must not be null\n");
+        return -1;
+    }
+
     char canonical[BUFSIZ];
     snprintf(
         canonical, 
@@ -156,6 +171,11 @@ int getstringtosign(
     const char *region,
     const char *canonicalhex
 ) {
+    if(output == NULL) {
+        fprintf(stderr, "output buffer must not be null\n");
+        return -1;
+    }
+
     char tosign[BUFSIZ];
     snprintf(
         tosign, 
@@ -191,6 +211,11 @@ int createsignature(
     const char *date,
     const char *region
 ) {
+    if(output == NULL) {
+        fprintf(stderr, "output buffer must not be null\n");
+        return -1;
+    }
+    
     if(len < HEX_LEN) {
         fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
