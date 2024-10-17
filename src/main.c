@@ -1,4 +1,4 @@
-#include "awsv4.h"
+#include "../include/awsv4.h"
 
 int main() {
     char *region = "us-west-2";
