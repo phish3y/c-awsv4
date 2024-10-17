@@ -14,4 +14,4 @@ sudo make install
 ```
 
 ## Run
-You can run `bash run.sh` to run `main.c` and see example output
+You can run `bash run.sh` to see example output
