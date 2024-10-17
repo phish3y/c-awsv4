@@ -14,4 +14,8 @@ sudo make install
 ```
 
 ## Run
-You can run `bash run.sh` to see example output
+You can 
+```
+bash run.sh
+``` 
+to see example output
