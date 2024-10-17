@@ -9,14 +9,6 @@
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 
-#define info(fmt, ...) fprintf(stdout, "INFO: %s:%d: " fmt, __FILE__, __LINE__, ##__VA_ARGS__)
-#define error(fmt, ...) fprintf(stderr, "ERROR: %s:%d: " fmt, __FILE__, __LINE__, ##__VA_ARGS__)
-#ifdef DEBUG
-    #define debug(fmt, ...) fprintf(stderr, "DEBUG: %s:%d: " fmt, __FILE__, __LINE__, ##__VA_ARGS__)
-#else
-    #define debug(fmt, ...)
-#endif
-
 #define HEX_LEN  SHA256_DIGEST_LENGTH * 2 + 1
 
 

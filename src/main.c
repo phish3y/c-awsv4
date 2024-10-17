@@ -7,27 +7,27 @@ int main() {
     // get time/date stamps
     char timestamp[20]; 
     if(awstime(timestamp, sizeof(timestamp)) != 0) {
-        error("failed to get aws time\n");
+        fprintf(stderr, "failed to get aws time\n");
         return -1;
     }    
-    info("aws time: %s\n", timestamp);
+    fprintf(stdout, "aws time: %s\n", timestamp);
 
     char date[20]; 
     if(awsdate(date, sizeof(date)) != 0) {
-        error("failed to get aws date\n");
+        fprintf(stderr, "failed to get aws date\n");
         return -1;
     }
-    info("aws date: %s\n\n\n", date);
+    fprintf(stdout, "aws date: %s\n\n\n", date);
 
 
     // hash/hex the payload
     char *payload = "";
     char payloadhex[HEX_LEN];
     if(sha256hex(payloadhex, sizeof(payloadhex), payload) != 0) {
-        error("failed to sha256 hex the payload\n");
+        fprintf(stderr, "failed to sha256 hex the payload\n");
         return -1;  
     }
-    info("payload hex: %s\n\n\n", payloadhex);
+    fprintf(stdout, "payload hex: %s\n\n\n", payloadhex);
 
 
     // build canonical request
@@ -41,19 +41,19 @@ int main() {
         payloadhex, 
         timestamp
     )) {
-        error("failed to get canonical req\n");
+        fprintf(stderr, "failed to get canonical req\n");
         return -1;
     }
-    info("canonical req:\n%s\n\n\n", canonical);
+    fprintf(stdout, "canonical req:\n%s\n\n\n", canonical);
 
 
     // hash/hex the canonical request
     char canonicalhex[HEX_LEN];
     if(sha256hex(canonicalhex, sizeof(canonicalhex), canonical) != 0) {
-        error("failed to sha256 hex the canonical request\n");
+        fprintf(stderr, "failed to sha256 hex the canonical request\n");
         return -1;  
     }
-    info("canonical hex: %s\n\n\n", canonicalhex);
+    fprintf(stdout, "canonical hex: %s\n\n\n", canonicalhex);
 
 
     // get string to sign
@@ -66,10 +66,10 @@ int main() {
         region,
         canonicalhex
     ) != 0) {
-        error("failed to get string to sign\n");
+        fprintf(stderr, "failed to get string to sign\n");
         return -1;  
     }
-    info("string to sign:\n%s\n\n\n", tosign);
+    fprintf(stdout, "string to sign:\n%s\n\n\n", tosign);
 
 
     // create signature
@@ -82,10 +82,10 @@ int main() {
         date,
         region
     ) != 0) {
-        error("failed to create signature\n");
+        fprintf(stderr, "failed to create signature\n");
         return -1;  
     }
-    info("signature: %s\n\n\n", signature);
+    fprintf(stdout, "signature: %s\n\n\n", signature);
 
     return 0;
 }

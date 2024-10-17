@@ -4,29 +4,29 @@ int awstime(char *output, const size_t len) {
     size_t tslen = 20;
 
     if(output == NULL) {
-        error("output buffer must not be null\n");
+        fprintf(stderr, "output buffer must not be null\n");
         return -1;
     }
 
     if(len < tslen) {
-        error("buffer size too small for timestamp. must be at least: %zu\n", tslen);
+        fprintf(stderr, "buffer size too small for timestamp. must be at least: %zu\n", tslen);
         return -1;
     }
 
     time_t now = time(NULL);
     if(now ==((time_t) -1)) {
-        error("failed to get current time\n");
+        fprintf(stderr, "failed to get current time\n");
         return -1;
     }
 
     struct tm *utc = gmtime(&now);
     if(!utc) {
-        error("failed to convert time to utc\n");
+        fprintf(stderr, "failed to convert time to utc\n");
         return -1;
     }
 
     if(strftime(output, tslen, "%Y%m%dT%H%M%SZ", utc) == 0) {
-        error("failed to format timestamp\n");
+        fprintf(stderr, "failed to format timestamp\n");
         return -1;
     }
 
@@ -39,29 +39,29 @@ int awsdate(char *output, const size_t len) {
     size_t datelen = 9;
 
     if(output == NULL) {
-        error("output buffer must not be null\n");
+        fprintf(stderr, "output buffer must not be null\n");
         return -1;
     }
 
     if(len < datelen) {
-        error("output buffer size too small for date. must be at least: %zu\n", datelen);
+        fprintf(stderr, "output buffer size too small for date. must be at least: %zu\n", datelen);
         return -1;
     }
 
     time_t now = time(NULL);
     if(now ==((time_t) -1)) {
-        error("failed to get current time\n");
+        fprintf(stderr, "failed to get current time\n");
         return -1;
     }
 
     struct tm *utc = gmtime(&now);
     if(!utc) {
-        error("failed to convert time to utc\n");
+        fprintf(stderr, "failed to convert time to utc\n");
         return -1;
     }
 
     if(strftime(output, datelen, "%Y%m%d", utc) == 0) {
-        error("failed to format date\n");
+        fprintf(stderr, "failed to format date\n");
         return -1;
     }
 
@@ -72,7 +72,7 @@ int awsdate(char *output, const size_t len) {
 
 int tohex(char *output, const size_t olen, const unsigned char *input, const size_t ilen) {
     if(olen < HEX_LEN) {
-        error("output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
+        fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
     }
 
@@ -87,18 +87,18 @@ int tohex(char *output, const size_t olen, const unsigned char *input, const siz
 
 int sha256hex(char *output, const size_t len, const char *input) {
     if(len < HEX_LEN) {
-        error("output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
+        fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
     }
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
     if(SHA256((unsigned char*) input, strlen(input), hash) == NULL) {
-        error("failed to get sha256\n");
+        fprintf(stderr, "failed to get sha256\n");
         return -1;
     }
 
     if(tohex(output, len, hash, sizeof(hash)) != 0) {
-        error("failed to convert sha256 to hex\n");
+        fprintf(stderr, "failed to convert sha256 to hex\n");
         return -1;
     }
 
@@ -137,7 +137,7 @@ int getcanonicalreq(
 
     size_t canonicalsize = strlen(canonical);
     if(canonicalsize + 1 > len) {
-        error("output buffer size too small for canonical. must be at least: %zu\n", canonicalsize);
+        fprintf(stderr, "output buffer size too small for canonical. must be at least: %zu\n", canonicalsize);
         return -1;
     }
 
@@ -172,7 +172,7 @@ int getstringtosign(
 
     size_t tosignsize = strlen(tosign);
     if(len < tosignsize + 1) {
-        error("output buffer size too small for string to sign. must be at least: %zu\n", tosignsize);
+        fprintf(stderr, "output buffer size too small for string to sign. must be at least: %zu\n", tosignsize);
         return -1;
     }
 
@@ -192,7 +192,7 @@ int createsignature(
     const char *region
 ) {
     if(len < HEX_LEN) {
-        error("output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
+        fprintf(stderr, "output buffer size too small for hex. must be at least: %d\n", HEX_LEN);
         return -1;
     }
 
@@ -217,7 +217,7 @@ int createsignature(
         kdate, 
         NULL
     ) == NULL) {
-        error("failed to get hmac sha for secret + date\n");
+        fprintf(stderr, "failed to get hmac sha for secret + date\n");
         return -1;
     }
 
@@ -230,7 +230,7 @@ int createsignature(
         kregion, 
         NULL
     ) == NULL) {
-        error("failed to get hmac sha for date + region\n");
+        fprintf(stderr, "failed to get hmac sha for date + region\n");
         return -1;
     }
 
@@ -243,7 +243,7 @@ int createsignature(
         kservice, 
         NULL
     ) == NULL) {
-        error("failed to get hmac sha for region + service\n");
+        fprintf(stderr, "failed to get hmac sha for region + service\n");
         return -1;
     }
 
@@ -256,7 +256,7 @@ int createsignature(
         signer, 
         NULL
     ) == NULL) {
-        error("failed to get hmac sha for service + request type\n");
+        fprintf(stderr, "failed to get hmac sha for service + request type\n");
         return -1;
     }
 
@@ -271,7 +271,7 @@ int createsignature(
         signedhash, 
         NULL
     ) == NULL) {
-        error("failed to get hmac sha for service + request type\n");
+        fprintf(stderr, "failed to get hmac sha for service + request type\n");
         return -1;
     }
 
